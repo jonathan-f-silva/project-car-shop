@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  frontend:
+    build: ./frontend
+    environment:
+      - BACKEND_HOST=backend
+    ports:
+      - 3000:80
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3000"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  backend:
+    build: ./backend
+    environment:
+      - DB_HOST=db
+    ports:
+      - 3001:3001
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3001"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  db:
+    image: healthcheck/mongo
+    ports:
+      - 27017:27017
+    restart: always
+    healthcheck:
+      test: ["CMD", "docker-healthcheck"]
+      interval: 10s
+      timeout: 10s
+      retries: 5

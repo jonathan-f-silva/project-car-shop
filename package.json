@@ -1,0 +1,19 @@
+{
+  "name": "project-car-shop",
+  "version": "0.1.0",
+  "description": "App para cadastro de veículos",
+  "scripts": {
+    "compose:up": "docker compose up --build -d",
+    "compose:down": "docker-compose down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonathan-f-silva/project-car-shop.git"
+  },
+  "author": "Jonathan Ferreira <j0n4t@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonathan-f-silva/project-car-shop/issues"
+  },
+  "homepage": "https://github.com/jonathan-f-silva/project-car-shop#readme"
+}
