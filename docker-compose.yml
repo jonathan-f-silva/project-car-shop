@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  car-shop:
+  reverse-proxy:
     image: docker.io/j0n4t/car-shop-reverse-proxy
     ports:
       - 80:80
@@ -42,12 +42,12 @@ services:
       retries: 5
 
   db:
-    image: docker.io/healthcheck/mongo
+    image: docker.io/mongo
     ports:
       - 27017
     restart: always
     healthcheck:
-      test: ["CMD", "docker-healthcheck"]
+      test: ["CMD", "pgrep", "mongod"]
       interval: 3s
       timeout: 10s
       retries: 5
