@@ -1,40 +1,53 @@
 version: '3.9'
 services:
+  car-shop:
+    image: docker.io/j0n4t/car-shop-reverse-proxy
+    ports:
+      - 80:80
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+    restart: always
+
   frontend:
-    build: ./frontend
+    image: docker.io/j0n4t/car-shop-frontend
+    ports:
+      - 80
     environment:
       - BACKEND_HOST=backend
-    ports:
-      - 3000:80
     depends_on:
       backend:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3000"]
-      interval: 10s
+      test: ["CMD", "lsof", "-t", "-i:80"]
+      interval: 3s
       timeout: 10s
       retries: 5
+
   backend:
-    build: ./backend
+    image: docker.io/j0n4t/car-shop-backend
+    ports:
+      - 8080
     environment:
       - DB_HOST=db
-    ports:
-      - 3001:3001
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3001"]
-      interval: 10s
+      test: ["CMD", "lsof", "-t", "-i:8080"]
+      interval: 3s
       timeout: 10s
       retries: 5
+
   db:
-    image: healthcheck/mongo
+    image: docker.io/healthcheck/mongo
     ports:
-      - 27017:27017
+      - 27017
     restart: always
     healthcheck:
       test: ["CMD", "docker-healthcheck"]
-      interval: 10s
+      interval: 3s
       timeout: 10s
       retries: 5
