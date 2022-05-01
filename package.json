@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "description": "App para cadastro de veículos",
   "scripts": {
-    "compose:up": "docker compose up --build -d",
-    "compose:down": "docker-compose down"
+    "compose:up": "docker compose -f docker-compose.yml up -d",
+    "compose:down": "docker-compose down",
+    "dev:compose:up": "docker compose -f docker-compose.dev.yml up --build",
+    "dev:compose:down": "npm run compose:down"
   },
   "repository": {
     "type": "git",
